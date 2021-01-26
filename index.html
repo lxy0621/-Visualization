@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/index.css">
+    <title>远程医疗大数据信息统计</title>
+</head>
+
+<body>
+    <header>
+        <div class="function"></div>
+        <div class="title">远程医疗大数据平台</div>
+        <div class="time" id="time"></div>
+    </header>
+    <!-- 主体 -->
+    <section class="mainbox">
+        <div class="column xg_box">
+            <div class="panel _panel2x">
+                <h2>新冠疫情实时会诊数据</h2>
+                <div class="xg_titletime"></div>
+                <div class="xg_titledata"></div>
+                <div class="xg_listtitle">
+                    <div>城市</div>
+                    <div>确诊</div>
+                    <div>治愈</div>
+                    <div>死亡</div>
+                </div>
+                <div class="xgdata">
+                    <ul></ul>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel pover">
+                <h2>精准扶贫会诊数据统计</h2>
+                <div class="chart1"></div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="panel number">
+                <h2>接入医院数据总量</h2>
+                <div class="number_body">
+                    <div class="num_item">
+                        <div class="item_name">医院总数</div>
+                        <div class="item_num totalHopsital"></div>
+                    </div>
+                    <div class="num_item">
+                        <div class="item_name">一级医院</div>
+                        <div class="item_num level1"></div>
+                    </div>
+                    <div class="num_item">
+                        <div class="item_name">二级医院</div>
+                        <div class="item_num level2"></div>
+                    </div>
+                    <div class="num_item">
+                        <div class="item_name">三级医院</div>
+                        <div class="item_num level3"></div>
+                    </div>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="map">
+                <div class="map1"></div>
+                <div class="map2"></div>
+                <div class="map3"></div>
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="panel fiveYear">
+                <h2>五年内会诊数据统计</h2>
+                <div class="chart2"></div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel proinData">
+                <h2>区内会诊实时数据信息</h2>
+                <div class="proin">
+                    <ul></ul>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel prooutData">
+                <h2>区外会诊实时数据信息</h2>
+                <div class="proout">
+                    <ul></ul>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+    </section>
+    <script src="./js/neimenggu.js"></script>
+    <script src="./js/flexible.js"></script>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/touch.js"></script>
+    <script src="./js/scroll.js"></script>
+    <script src="./js/interactive.js"></script>
+    <script>
+        var myChart = echarts.init(document.getElementById('map'));
+        var neimengguJSON = neimengguJSON;
+        var data = [
+            { name: '呼和浩特市', value: 399 },
+            { name: '包头市', value: 345 },
+            { name: '乌海市', value: 11 },
+            { name: '赤峰市', value: 26 },
+            { name: '通辽市', value: 46 },
+            { name: '鄂尔多斯市', value: 89 },
+            { name: '呼伦贝尔市', value: 9 },
+            { name: '巴彦淖尔市', value: 13 },
+            { name: '乌兰察布市', value: 87 },
+            { name: '兴安盟', value: 2 },
+            { name: '锡林郭勒盟', value: 3 },
+            { name: '阿拉善盟', value: 1 },
+        ];
+
+        echarts.registerMap('neimenggu', neimengguJSON);
+        option = {
+            title: {},
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    if (params.data.value.length > 1) {
+                        return params.data.name + "：" + params.data.value[2] + "家"
+                    } else {
+                        return params.data.name + "：" + params.data.value + "家"
+                    }
+                },
+                extraCssText: 'font-size:12px;'
+            },
+            series: [
+                {
+                    name: '',
+                    type: 'map',
+                    mapType: 'neimenggu',
+                    roam: false,
+                    label: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: true,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#ffffff'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#4c60ff',
+                            borderColor: '#002097'
+                        },
+                        emphasis: {
+                            areaColor: '#06c'
+                        }
+                    },
+
+                    data: data
+                }
+            ]
+        };;
+
+        myChart.setOption(option);
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+    </script>
+</body>
+
+</html>
